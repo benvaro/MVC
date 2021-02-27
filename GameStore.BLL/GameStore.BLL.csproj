@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementation\GameService.cs" />
+    <Compile Include="Implementation\TestService.cs" />
     <Compile Include="Interfaces\IGameService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

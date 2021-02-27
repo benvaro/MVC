@@ -6,8 +6,8 @@ namespace GameStore.DAL.Repository.Interface
     public interface IGenericRepository<TEntity> where TEntity: class
     {
         Task CreateAsync(TEntity entity);
-        void Update(TEntity entity);
-        void Delete(int id);
+        Task UpdateAsync(TEntity entity);
+        Task DeleteAsync(int id);
         IEnumerable<TEntity> GetAll();
         TEntity Get(int id);
     }

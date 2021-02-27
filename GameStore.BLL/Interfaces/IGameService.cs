@@ -9,6 +9,10 @@ namespace GameStore.BLL.Interfaces
         IEnumerable<Game> GetAllGames();
         IEnumerable<Genre> GetAllGenres();
         IEnumerable<Developer> GetAllDevelopers();
-        Task AddGame(Game game);
+        Task AddGameAsync(Game game);
+        IEnumerable<string> GetGenres();
+        IEnumerable<string> GetDevelopers();
+        Game GetGame(int id); 
+        
     }
 }

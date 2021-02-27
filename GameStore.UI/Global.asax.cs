@@ -1,3 +1,4 @@
+using GameStore.UI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace GameStore.UI
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            AutofacConfiguration.Configurate();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
     }
