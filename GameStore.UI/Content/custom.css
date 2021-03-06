@@ -1,0 +1,7 @@
+﻿#localImg, #urlimage {
+    display: none;
+}
+
+#radioUrlImg, #radioFileImg{
+    display: inline-block;
+}

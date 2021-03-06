@@ -9,7 +9,7 @@
         <div class="row">
             <h2>Create</h2>
 
-            @using (Html.BeginForm())
+            @using (Html.BeginForm("Create", "Games", FormMethod.Post, new { enctype = "multipart/form-data"}))
             {
                 <div class="form-horizontal">
                     <h4>GameViewModel</h4>
@@ -48,23 +48,28 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                        <div onclick="ChoosenUrlImg()">
+                            <input type="radio" id="radioUrlImg" />
+                            <label>Image Url</label>
+                        </div>
+                        <div onclick="ChoosenLocalImg()">
+                            <input type="radio" id="radioFileImg" />
+                            <label>Local Image</label>
+                        </div>
+                        <div>
+                            <input type="file" name="image" id="localImg" placeholder="choose" />
+                            <input type="text" name="image" id="urlimage" placeholder="enter URL" />
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Genre, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Genre, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
-                        </div>
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Genre, new SelectList(ViewBag.Genres), "Select Genre", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
                     </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Developer, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Developer", new SelectList(ViewBag.Developers), "Choose Developer", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Developer, "", new { @class = "text-danger" })
+
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.Developer, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Developer, "", new { @class = "text-danger" })

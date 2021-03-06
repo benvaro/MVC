@@ -2,10 +2,12 @@
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 using GameStore.UI.Models;
+using GameStore.UI.Utils.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace GameStore.UI.Controllers
@@ -61,20 +63,38 @@ namespace GameStore.UI.Controllers
 
         public ActionResult Create()
         {
+            ViewBag.Genres = _gameService.GetGenres();
+            ViewBag.Developers = _gameService.GetDevelopers();
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(GameViewModel model)
+        public async Task<ActionResult> Create(GameViewModel model, HttpPostedFileBase image)
         {
+            // 1) якщо картинка:
+            //    2) зберегти картинку на сервер
+                    // 2.1) конвертувати картинку
+            //    3) записати шлях в модель
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
+            if (image != null)
+            {
+                var fileName = Guid.NewGuid().ToString() + ".jpg";
+
+                var bitmap = BitmapConvertor.Convert(image.InputStream, 200, 200);
+                var serverPath = Server.MapPath($"~/Images/{fileName}");
+
+                bitmap.Save(serverPath);
+                model.Image = $"/Images/{fileName}";
+            }
+
             await _gameService.AddGameAsync(_mapper.Map<Game>(model));
             return RedirectToAction("Index");
         }
+
         public ActionResult Edit(int id)
         {
             var game = _gameService.GetGame(id);
