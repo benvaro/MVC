@@ -10,6 +10,6 @@ namespace GameStore.DAL.Entities
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
-        public ICollection<Game> Games { get; set; }
+        public virtual ICollection<Game> Games { get; set; }
     }
 }

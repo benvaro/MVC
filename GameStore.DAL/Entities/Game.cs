@@ -13,8 +13,8 @@ namespace GameStore.DAL.Entities
         public string Description { get; set; }
         public string Image { get; set; }
         [Required]
-        public Genre Genre { get; set; }
+        public virtual Genre Genre { get; set; }
         [Required]
-        public Developer Developer { get; set; }
+        public virtual Developer Developer { get; set; }
     }
 }

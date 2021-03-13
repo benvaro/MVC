@@ -1,9 +1,13 @@
-﻿using GameStore.BLL.Interfaces;
+﻿using System;
+using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Repository.Interface;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Binbin.Linq;
+using GameStore.BLL.Filters;
 
 namespace GameStore.BLL.Implementation
 {
@@ -34,9 +38,27 @@ namespace GameStore.BLL.Implementation
             return _developerRepository.GetAll();
         }
 
-        public IEnumerable<Game> GetAllGames()
+        public IEnumerable<Game> GetAllGames(List<GamesFilter> filters)
         {
-            return _gameRepository.GetAll();
+            if (filters == null)
+            {
+                return _gameRepository.GetAll();
+            }
+
+            // Filters
+            // x => x.Developer.Name == "Ubisoft" ||
+            // x => x.Developer.Name == "Zaremba"
+
+            var predicates = new List<Expression<Func<Game, bool>>>();
+
+            var builder = PredicateBuilder.Create(filters.FirstOrDefault().Predicate);
+
+            for (int i = 1; i < filters.Count; i++)
+            {
+                builder = builder.Or(filters[i].Predicate);
+            }
+
+            return _gameRepository.GetAll().Where(builder.Compile());
         }
 
         public IEnumerable<Genre> GetAllGenres()

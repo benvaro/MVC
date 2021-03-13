@@ -268,6 +268,7 @@
     <Content Include="Views\Shared\_LayoutPage.cshtml" />
     <Content Include="Views\Games\Create.cshtml" />
     <Content Include="Views\Games\Edit.cshtml" />
+    <Content Include="Views\Games\GamesPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

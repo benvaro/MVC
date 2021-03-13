@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/GameStore.UI/App_Data/Images
+/GameStore.UI/Images/be0b8646-e72a-4193-b3f4-88f1a4e3b607.jpg

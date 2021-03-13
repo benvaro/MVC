@@ -13,3 +13,10 @@ function ChoosenLocalImg() {
     $("#urlimage").addClass("d-none");
     $("#localImg").addClass("d-block");
 }
+
+function setFilter(element) {
+    var type = $(element).data("type");
+    var value = $(element).val();
+
+    $("#gamesContainer").load(`/Games/Filter?type=${type}&value=${encodeURIComponent(value)}`);
+}

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.BLL.Filters;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 using GameStore.UI.Models;
@@ -43,7 +44,11 @@ namespace GameStore.UI.Controllers
             //} 
             #endregion
 
-            var games = _mapper.Map<List<GameViewModel>>(_gameService.GetAllGames());
+            ViewBag.Developers = _gameService.GetDevelopers();
+            ViewBag.Genres = _gameService.GetGenres();
+            Response.Cookies["id"].Value = Guid.NewGuid().ToString();
+
+            var games = _mapper.Map<List<GameViewModel>>(_gameService.GetAllGames(null));
             if (String.IsNullOrEmpty(search))
             {
                 return View(games);
@@ -63,9 +68,14 @@ namespace GameStore.UI.Controllers
 
         public ActionResult Create()
         {
+            SetViewBag();
+            return View();
+        }
+
+        private void SetViewBag()
+        {
             ViewBag.Genres = _gameService.GetGenres();
             ViewBag.Developers = _gameService.GetDevelopers();
-            return View();
         }
 
         [HttpPost]
@@ -73,7 +83,7 @@ namespace GameStore.UI.Controllers
         {
             // 1) якщо картинка:
             //    2) зберегти картинку на сервер
-                    // 2.1) конвертувати картинку
+            // 2.1) конвертувати картинку
             //    3) записати шлях в модель
             if (!ModelState.IsValid)
             {
@@ -92,6 +102,7 @@ namespace GameStore.UI.Controllers
             }
 
             await _gameService.AddGameAsync(_mapper.Map<Game>(model));
+
             return RedirectToAction("Index");
         }
 
@@ -105,6 +116,51 @@ namespace GameStore.UI.Controllers
         public ActionResult Edit()
         {
             return View();
+        }
+
+        // type=Developer  // value=Bogdan
+        public ActionResult Filter(string type, string value)
+        {
+            var filter = new GamesFilter()
+            {
+                Name = value,
+                Type = type
+            };
+
+            // predicate: x => x.Developer == Bogdan
+            // predicate: x => x.Genre == RPG
+
+            if (type == "developer")
+            {
+                filter.Predicate = (x => x.Developer.Name == value);
+            }
+            else if (type == "genre")
+            {
+                filter.Predicate = (x => x.Genre.Name == value);
+            }
+
+            var filters = new List<GamesFilter>();
+            if (Session["GamesFilter"] != null)
+            {
+                filters = Session["GamesFilter"] as List<GamesFilter>;
+            }
+
+            var found = filters.FirstOrDefault(f => f.Name == value && f.Type == type);
+            if (found != null)
+            {
+                filters.Remove(found);
+            }
+            else
+            {
+                filters.Add(filter);
+            }
+
+            Session["GamesFilter"] = filters;
+
+            var games = _gameService.GetAllGames(filters);
+            SetViewBag();
+
+            return PartialView("GamesPartial", _mapper.Map<List<GameViewModel>>(games));
         }
     }
 }

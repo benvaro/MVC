@@ -1,12 +1,13 @@
 ﻿using GameStore.DAL.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GameStore.BLL.Filters;
 
 namespace GameStore.BLL.Interfaces
 {
     public interface IGameService
     {
-        IEnumerable<Game> GetAllGames();
+        IEnumerable<Game> GetAllGames(List<GamesFilter> filters);
         IEnumerable<Genre> GetAllGenres();
         IEnumerable<Developer> GetAllDevelopers();
         Task AddGameAsync(Game game);
