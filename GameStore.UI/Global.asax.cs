@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Optimization;
 using System.Web.Routing;
+using GameStore.UI.App_Start;
 
 namespace GameStore.UI
 {
@@ -15,6 +17,7 @@ namespace GameStore.UI
             AreaRegistration.RegisterAllAreas();
             AutofacConfiguration.Configurate();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
 }

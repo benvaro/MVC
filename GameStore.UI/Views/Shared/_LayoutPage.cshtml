@@ -7,6 +7,7 @@
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/style.css" rel="stylesheet" />
     <link href="~/Content/custom.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/39c9a805b6.js"></script>
 </head>
 <body>
     <div class="dashboard-main-wrapper">
@@ -18,12 +19,6 @@
                 </button>
                 <div class="collapse navbar-collapse " id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto navbar-right-top">
-                        @*@foreach (var item in ViewBag.Developers)
-                            {
-                                <li class="nav-item">
-                                    @item
-                                </li>
-                            }*@
                         <li class="nav-item">
                             <div id="custom-search" class="top-search-bar">
                                 <input class="form-control" type="text"
@@ -90,24 +85,24 @@
                                 <li class="connection-list">
                                     <div class="row">
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/github.png" alt=""> <span>Github</span></a>
+                                            <a href="#" class="connection-item"><i class="fab fa-github"></i> <span>Github</span></a>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/dribbble.png" alt=""> <span>Dribbble</span></a>
+                                            <a href="#" class="connection-item"><i class="fab fa-facebook"></i> <span>Facebook</span></a>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/dropbox.png" alt=""> <span>Dropbox</span></a>
+                                            <a href="#" class="connection-item"><i class="fab fa-dropbox"></i> <span>Dropbox</span></a>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/bitbucket.png" alt=""> <span>Bitbucket</span></a>
+                                            <a href="#" class="connection-item"><i class="fab fa-bitbucket"></i> <span>Bitbucket</span></a>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/mail_chimp.png" alt=""><span>Mail chimp</span></a>
+                                            <a href="#" class="connection-item"><i class="fab fa-mailchimp"></i><span>Mail chimp</span></a>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/slack.png" alt=""> <span>Slack</span></a>
+                                            <a href="#" class="connection-item"><i class="fab fa-slack"></i> <span>Slack</span></a>
                                         </div>
                                     </div>
                                 </li>
@@ -117,15 +112,30 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown nav-user">
-                            <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
+                            <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user user-avatar-md rounded-circle"></i></a>
                             <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
                                 <div class="nav-user-info">
-                                    <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
-                                    <span class="status"></span><span class="ml-2">Available</span>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <h5 class="mb-0 text-white nav-user-name">@User.Identity.Name</h5>
+                                        <span class="status"></span>
+                                        if (User.IsInRole("Admin"))
+                                        {
+                                            <i class="fas fa-star mr-2"></i>
+                                        }
+                                        <span class="ml-2">Available</span>
+                                    }
                                 </div>
                                 <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <a class="dropdown-item" href="@Url.Action("Logout", "Account")"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                                }
+                                else
+                                {
+                                    <a class="dropdown-item" href="@Url.Action("Login", "Account")"><i class="fas fa-power-off mr-2"></i>Sign In</a>
+                                }
                             </div>
                         </li>
                         <li class="nav-item">
@@ -150,13 +160,13 @@
                                     Menu
                                 </li>
                                 <li class="nav-item ">
-                                    <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span></a>
+                                    <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Genres <span class="badge badge-success">6</span></a>
                                     <div id="submenu-1" class="collapse submenu" style="">
                                         <ul class="nav flex-column">
                                             @foreach (var item in ViewBag.Genres)
                                             {
                                                 <li class="nav-item">
-                                                    <input data-type="genre" type="checkbox" id="@item" onclick="setFilter(this)" value ="@item" name="@item"/>
+                                                    <input data-type="genre" type="checkbox" id="@item" onclick="setFilter(this)" value="@item" name="@item" />
                                                     <label for="@item">@item</label>
                                                 </li>
                                             }
@@ -164,13 +174,13 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>UI Elements</a>
+                                    <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>Developers</a>
                                     <div id="submenu-2" class="collapse submenu" style="">
                                         <ul class="nav flex-column">
                                             @foreach (var item in ViewBag.Developers)
                                             {
                                                 <li class="nav-item">
-                                                    <input data-type="developer" type="checkbox" id="@item" onclick="setFilter(this)" value ="@item" name="@item"/>
+                                                    <input data-type="developer" type="checkbox" id="@item" onclick="setFilter(this)" value="@item" name="@item" />
                                                     <label for="@item">@item</label>
                                                 </li>
                                             }

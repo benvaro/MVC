@@ -1,14 +1,15 @@
+using Microsoft.AspNet.Identity.EntityFramework;
+
 namespace GameStore.DAL
 {
     using GameStore.DAL.Entities;
     using System.Data.Entity;
-
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationContext()
             : base("name=ApplicationContext")
         {
-            Database.SetInitializer(new GameInitializer());
+         //   Database.SetInitializer(new GameInitializer());
         }
 
         public DbSet<Developer> Developers{ get; set; }
